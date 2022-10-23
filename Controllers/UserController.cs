@@ -40,5 +40,37 @@ namespace Test.Controllers
             
         }
 
+        //GET
+        public IActionResult Edit(int? id)
+        {
+            if(id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var userFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
+            
+            if (userFromDb ==null)
+            {
+                return NotFound();
+            }
+
+            return View(userFromDb);
+        }
+        
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(User obj)
+        {
+           if(ModelState.IsValid)
+           {
+                _db.Users.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+           }
+           return View(obj);
+            
+        }
+
     }
 }
