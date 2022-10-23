@@ -40,7 +40,7 @@ namespace Test.Controllers
             
         }
 
-        //GET
+        //EDIT => GET
         public IActionResult Edit(int? id)
         {
             if(id == null || id == 0)
@@ -57,7 +57,7 @@ namespace Test.Controllers
             return View(userFromDb);
         }
         
-        //POST
+        //EDIT => POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(User obj)
@@ -70,6 +70,38 @@ namespace Test.Controllers
            }
            return View(obj);
             
+        }
+        //DELETE => GET
+        public IActionResult Delete(int? id)
+        {
+            if(id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var userFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
+            
+            if (userFromDb ==null)
+            {
+                return NotFound();
+            }
+
+            return View(userFromDb);
+        }
+        
+        //DELETE => POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePOST(int? id)
+        {
+            var objFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
+            if (objFromDb == null)
+            {
+                return NotFound();
+            }
+           
+                _db.Users.Remove(objFromDb);
+                _db.SaveChanges();
+                return RedirectToAction("Index");            
         }
 
     }

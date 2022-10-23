@@ -16298,6 +16298,11 @@
   "RootNamespace": "UsersControl",
   "Documents": [
     {
+      "FilePath": "/home/violaontheroad/UsersControl/Views/User/Delete.cshtml",
+      "TargetPath": "Views\\User\\Delete.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "/home/violaontheroad/UsersControl/Views/User/Edit.cshtml",
       "TargetPath": "Views\\User\\Edit.cshtml",
       "FileKind": "mvc"
