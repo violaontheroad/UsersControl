@@ -19,12 +19,26 @@ namespace Test.Controllers
             IEnumerable<User> userList = _db.Users;
             return View(userList);
         }
-
+        //GET
         public IActionResult Create()
         {
             return View();
         }
         
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(User obj)
+        {
+           if(ModelState.IsValid)
+           {
+                _db.Users.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+           }
+           return View(obj);
+            
+        }
 
     }
 }
