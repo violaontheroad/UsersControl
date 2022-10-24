@@ -41,7 +41,7 @@ namespace Test.Controllers
         }
 
         //EDIT => GET
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(long? id)
         {
             if(id == null || id == 0)
             {
@@ -72,7 +72,7 @@ namespace Test.Controllers
             
         }
         //DELETE => GET
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(long? id)
         {
             if(id == null || id == 0)
             {
@@ -91,7 +91,7 @@ namespace Test.Controllers
         //DELETE => POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(int? id)
+        public IActionResult DeletePOST(long? id)
         {
             var objFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
             if (objFromDb == null)

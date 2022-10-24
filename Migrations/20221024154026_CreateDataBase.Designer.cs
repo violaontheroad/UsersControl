@@ -11,8 +11,8 @@ using Test.Data;
 namespace UsersControl.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221022190746_CreateDateBase")]
-    partial class CreateDateBase
+    [Migration("20221024154026_CreateDataBase")]
+    partial class CreateDataBase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,11 +25,11 @@ namespace UsersControl.Migrations
 
             modelBuilder.Entity("Test.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
                     b.Property<string>("Cpf")
                         .IsRequired()
@@ -37,11 +37,23 @@ namespace UsersControl.Migrations
                         .HasColumnType("VARCHAR(80)")
                         .HasColumnName("Cpf");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("VARCHAR(80)")
+                        .HasColumnName("Email");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("NVARCHAR(80)")
                         .HasColumnName("Name");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("VARCHAR(80)")
+                        .HasColumnName("Password");
 
                     b.HasKey("Id");
 

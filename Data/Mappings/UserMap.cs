@@ -27,12 +27,21 @@ namespace Blog.Data.Mappings
                 .HasColumnType("NVARCHAR")
                 .HasMaxLength(80);
 
-            // builder.Property(x => x.Email);
-            // builder.Property(x => x.Password);
+            builder.Property(x => x.Email)
+                .IsRequired()
+                .HasColumnName("Email")
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(80);
 
             builder.Property(x => x.Cpf)
                 .IsRequired()
                 .HasColumnName("Cpf")
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(80);
+            
+            builder.Property(x => x.Password)
+                .IsRequired()
+                .HasColumnName("Password")
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(80);
         }

@@ -4,7 +4,7 @@
 
 namespace UsersControl.Migrations
 {
-    public partial class CreateDateBase : Migration
+    public partial class CreateDataBase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,10 +12,12 @@ namespace UsersControl.Migrations
                 name: "User",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "NVARCHAR(80)", maxLength: 80, nullable: false),
-                    Cpf = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false)
+                    Email = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false),
+                    Cpf = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false),
+                    Password = table.Column<string>(type: "VARCHAR(80)", maxLength: 80, nullable: false)
                 },
                 constraints: table =>
                 {
