@@ -17,7 +17,7 @@ public class LoginController : Controller
         {
             if (ModelState.IsValid)
             {
-                if(loginModel.Login == "viola" && loginModel.Password == "123")
+                if(loginModel.Login == "viola@gmail.com" && loginModel.Password == "123")
                 {
                     return RedirectToAction("Index", "Home");
                 }

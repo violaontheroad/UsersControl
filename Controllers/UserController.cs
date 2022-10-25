@@ -54,6 +54,7 @@ namespace Test.Controllers
             {
                 return NotFound();
             }
+            userFromDb.Password = "";
 
             return View(userFromDb);
         }
@@ -64,7 +65,8 @@ namespace Test.Controllers
         public IActionResult Edit(User obj)
         {
            if(ModelState.IsValid)
-           {
+           {    
+                obj.PasswordHash();
                 _db.Users.Update(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
