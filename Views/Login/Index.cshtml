@@ -1,0 +1,21 @@
+@model LoginModel
+@{
+    Layout = "_LayoutLogin";
+    ViewData["Title"] = "Login";
+}
+
+<form asp-controller="Login" asp-action="Enter" method="post">
+  <div class="form-group">
+    <label for="login">Login</label>
+    <input type="email" asp-for="Login" class="form-control" id="login" placeholder="Enter email">
+    <span asp-validation-for="Login" class="text-danger"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Enter password">
+    <span asp-validation-for="Password" class="text-danger"></span>
+  </div>
+  <br/>
+  <button type="submit" class="btn btn-primary btn-block">Login</button>
+</form>

@@ -32,6 +32,7 @@ namespace Test.Controllers
         {
            if(ModelState.IsValid)
            {
+                obj.PasswordHash();
                 _db.Users.Add(obj);
                 _db.SaveChanges();
                 return RedirectToAction("Index");

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UsersControl.Services;
 
 namespace Test.Models
 {
@@ -9,5 +10,10 @@ namespace Test.Models
         public string Email { get; set; }
         public string Cpf { get; set; }
         public string Password { get; set; }
+
+        public void PasswordHash()
+        {
+            Password = Password.GenerateHash();
+        }
     }
 }

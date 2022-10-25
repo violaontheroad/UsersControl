@@ -700,6 +700,7 @@
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/Microsoft.IdentityModel.Tokens.dll
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/Microsoft.Win32.SystemEvents.dll
+/home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/SecureIdentity.dll
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/System.Configuration.ConfigurationManager.dll
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/System.Drawing.Common.dll
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/System.IdentityModel.Tokens.Jwt.dll
