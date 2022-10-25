@@ -1,5 +1,7 @@
 using Test.Data;
 using Microsoft.EntityFrameworkCore;
+using UsersControl.Services;
+using UsersControl;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +11,11 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+builder.Services.AddTransient<TokenService>();
 
 var app = builder.Build();
+
+// Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -25,6 +30,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
