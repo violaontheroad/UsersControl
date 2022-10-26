@@ -381,6 +381,8 @@
 /home/violaontheroad/UsersControl/obj/Debug/net6.0/UsersControl.pdb
 /home/violaontheroad/UsersControl/obj/Debug/net6.0/UsersControl.genruntimeconfig.cache
 /home/violaontheroad/UsersControl/obj/Debug/net6.0/ref/UsersControl.dll
+/home/violaontheroad/UsersControl/bin/Debug/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/violaontheroad/UsersControl/bin/Debug/net6.0/SecureIdentity.dll
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/appsettings.Development.json
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/appsettings.json
 /home/violaontheroad/ASPNet/UsersControl/bin/Debug/net6.0/UsersControl.staticwebassets.runtime.json

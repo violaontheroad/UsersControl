@@ -1,10 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using Test.Models;
 using UsersControl.Models;
+using UsersControl.Repository;
 
 namespace UsersControl.Controllers;
 
 public class LoginController : Controller
 {
+    private readonly IUserRepository _userRepository;
+
+    public LoginController(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
     public IActionResult Index()
     {
         return View();
@@ -17,21 +25,27 @@ public class LoginController : Controller
         {
             if (ModelState.IsValid)
             {
-                if(loginModel.Login == "viola@gmail.com" && loginModel.Password == "123")
+               User user = _userRepository.SearchByEmail(loginModel.Email);
+
+                if(user != null)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if(user.ValidPassword(loginModel.Password))
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                    TempData["ErrorMessage"] = $"Password Invalid. Try again!";
                 }
-                TempData["ErrorMessage"] = $"..."; //colocar msg erro
+                
+                TempData["ErrorMessage"] = $"Email/Password Invalid. Try again!";
                 
             }
-
-
+            
             return View("Index");
             
         }
         catch (Exception error)
         {
-            TempData["ErrorMessage"] = $"..."; //colocar msg erro
+            TempData["ErrorMessage"] = $"Login Error! Try again";
             return RedirectToAction("Index");
         }
     }

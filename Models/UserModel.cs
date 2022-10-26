@@ -15,5 +15,10 @@ namespace Test.Models
         {
             Password = Password.GenerateHash();
         }
+
+        public bool ValidPassword(string password)
+        {
+            return Password == password.GenerateHash();
+        }
     }
 }

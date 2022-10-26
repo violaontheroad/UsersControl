@@ -2,6 +2,7 @@ using Test.Data;
 using Microsoft.EntityFrameworkCore;
 using UsersControl.Services;
 using UsersControl;
+using UsersControl.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,9 +14,10 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddTransient<TokenService>();
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 var app = builder.Build();
 
-// Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
