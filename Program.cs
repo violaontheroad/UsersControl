@@ -2,26 +2,47 @@ using Test.Data;
 using Microsoft.EntityFrameworkCore;
 using UsersControl.Services;
 using UsersControl;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Configure Authentication
+var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
+builder.Services.AddAuthentication(x=>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+}).AddJwtBearer(x=>
+{
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
+//Configure Services
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddTransient<TokenService>();
 
 
 var app = builder.Build();
+app.Configuration.GetValue<string>("JwtKey");
 
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -29,8 +50,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -42,3 +61,4 @@ app.MapControllerRoute(
     pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();
+

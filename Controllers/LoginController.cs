@@ -29,6 +29,8 @@ public class LoginController : Controller
                 {
                     if(PasswordHasher.Verify(user.Password, loginModel.Password))
                     {
+                        var token = tokenService.GenerateToken(user);
+                        
                         return RedirectToAction("Index", "Home");
                     }
                     TempData["ErrorMessage"] = $"Password Invalid. Try again!";

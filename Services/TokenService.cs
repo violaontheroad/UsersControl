@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Test.Models;
@@ -14,6 +15,10 @@ public class TokenService
         var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
+            Subject = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, user.Email),
+            }),
             Expires = DateTime.UtcNow.AddHours(8),
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key), 
