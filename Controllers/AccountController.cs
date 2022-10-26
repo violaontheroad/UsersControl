@@ -5,13 +5,6 @@ namespace UsersControl.Controllers;
 
 public class AccountController : Controller
 {
-    // private readonly TokenService _tokenService;
-
-    // public AccountController(TokenService tokenService)
-    // {
-    //     _tokenService = tokenService;
-    // }
-
     [HttpPost("v1/login")]
     public IActionResult Login([FromServices]TokenService tokenService)
     {

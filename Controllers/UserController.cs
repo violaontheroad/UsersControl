@@ -2,6 +2,8 @@ using Test.Data;
 using Test.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using SecureIdentity.Password;
 
 namespace Test.Controllers
 {
@@ -13,13 +15,21 @@ namespace Test.Controllers
         {
             _db = db;
         }
+        //GET
           public IActionResult Index()
         {
+            try
+            {
+                IEnumerable<User> userList = _db.Users;
+                return View(userList);
+            }
+            catch (DbUpdateException)
+            {
+                return StatusCode(400, ""); //coloca msg erro
+            }
             
-            IEnumerable<User> userList = _db.Users;
-            return View(userList);
         }
-        //GET
+        
         public IActionResult Create()
         {
             return View();
@@ -28,13 +38,16 @@ namespace Test.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(User obj)
+        public async Task<IActionResult> Create(User obj)
         {
+
            if(ModelState.IsValid)
            {
-                obj.PasswordHash();
-                _db.Users.Add(obj);
-                _db.SaveChanges();
+                var HashPassword = PasswordHasher.Hash(obj.Password);
+
+                obj.Password = HashPassword;
+                await _db.Users.AddAsync(obj);
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
            }
            return View(obj);
@@ -48,12 +61,14 @@ namespace Test.Controllers
             {
                 return NotFound();
             }
+            
             var userFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
             
             if (userFromDb ==null)
             {
                 return NotFound();
             }
+            
             userFromDb.Password = "";
 
             return View(userFromDb);
@@ -62,13 +77,15 @@ namespace Test.Controllers
         //EDIT => POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(User obj)
+        public async Task<IActionResult> Edit(User obj)
         {
            if(ModelState.IsValid)
            {    
-                obj.PasswordHash();
+                var HashPassword = PasswordHasher.Hash(obj.Password);
+
+                obj.Password = HashPassword;
                 _db.Users.Update(obj);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
            }
            return View(obj);
@@ -94,16 +111,17 @@ namespace Test.Controllers
         //DELETE => POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePOST(long? id)
+        public async Task<IActionResult> DeletePOST(long? id)
         {
             var objFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
+
             if (objFromDb == null)
             {
                 return NotFound();
             }
            
                 _db.Users.Remove(objFromDb);
-                _db.SaveChanges();
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");            
         }
 

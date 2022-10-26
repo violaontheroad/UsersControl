@@ -1,35 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
+using SecureIdentity.Password;
+using Test.Data;
 using Test.Models;
 using UsersControl.Models;
-using UsersControl.Repository;
+using UsersControl.Services;
 
 namespace UsersControl.Controllers;
 
 public class LoginController : Controller
 {
-    private readonly IUserRepository _userRepository;
-
-    public LoginController(IUserRepository userRepository)
-    {
-        _userRepository = userRepository;
-    }
     public IActionResult Index()
     {
         return View();
     }
 
     [HttpPost]
-    public IActionResult Enter(LoginModel loginModel)
+    public async Task<IActionResult> Login(LoginModel loginModel,
+    [FromServices]TokenService tokenService,
+    [FromServices]DataContext context)
     {
         try
         {
             if (ModelState.IsValid)
             {
-               User user = _userRepository.SearchByEmail(loginModel.Email);
-
+               var user = context.Users.FirstOrDefault(x => x.Email == loginModel.Email);
+               
                 if(user != null)
                 {
-                    if(user.ValidPassword(loginModel.Password))
+                    if(PasswordHasher.Verify(user.Password, loginModel.Password))
                     {
                         return RedirectToAction("Index", "Home");
                     }
