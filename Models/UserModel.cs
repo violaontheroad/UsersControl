@@ -11,14 +11,5 @@ namespace Test.Models
         public string Cpf { get; set; }
         public string Password { get; set; }
 
-        // public void PasswordHash()
-        // {
-        //     Password = Password.GenerateHash();
-        // }
-
-        // public bool ValidPassword(string password)
-        // {
-        //     return Password == password.GenerateHash();
-        // }
     }
 }

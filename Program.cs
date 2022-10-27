@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 //Configure Authentication
-var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
 builder.Services.AddAuthentication(x=>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -17,6 +16,7 @@ builder.Services.AddAuthentication(x=>
 
 }).AddJwtBearer(x=>
 {
+    var key = Encoding.ASCII.GetBytes(Configuration.JwtKey);
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
@@ -37,8 +37,7 @@ builder.Services.AddTransient<TokenService>();
 
 
 var app = builder.Build();
-app.Configuration.GetValue<string>("JwtKey");
-
+Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
 
 if (!app.Environment.IsDevelopment())
 {

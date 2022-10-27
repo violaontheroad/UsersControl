@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using SecureIdentity.Password;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Test.Controllers
 {
@@ -124,6 +125,10 @@ namespace Test.Controllers
                 await _db.SaveChangesAsync();
                 return RedirectToAction("Index");            
         }
+
+        //GET USER
+        [HttpPost("v1/user")]
+        public IActionResult GetUser() => Ok(User.Identity.Name);
 
     }
 }
