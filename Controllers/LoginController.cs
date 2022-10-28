@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SecureIdentity.Password;
 using Test.Data;
 using Test.Models;
+using UsersControl.Helper;
 using UsersControl.Models;
 using UsersControl.Services;
 
@@ -9,15 +10,27 @@ namespace UsersControl.Controllers;
 
 public class LoginController : Controller
 {
-    public IActionResult Index()
+
+    public IActionResult Index(
+        [FromServices]IUserSession session)
     {
-        return View();
+        //if user is logged, redirect to Home
+        if(session.SearchUserSession()!= null) return RedirectToAction("Index", "Home");
+        return View(); 
+    }
+
+    public IActionResult Logout(
+        [FromServices]IUserSession session)
+    {
+        session.removeUserSession();
+        return RedirectToAction("Index", "Login");
     }
 
     [HttpPost]
     public async Task<IActionResult> Login(LoginModel loginModel,
     [FromServices]TokenService tokenService,
-    [FromServices]DataContext context)
+    [FromServices]DataContext context,
+    [FromServices]IUserSession session)
     {
         try
         {
@@ -30,7 +43,7 @@ public class LoginController : Controller
                     if(PasswordHasher.Verify(user.Password, loginModel.Password))
                     {
                         var token = tokenService.GenerateToken(user);
-                        
+                        session.addUserSession(user);
                         return RedirectToAction("Index", "Home");
                     }
                     TempData["ErrorMessage"] = $"Password Invalid. Try again!";

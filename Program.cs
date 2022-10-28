@@ -5,6 +5,7 @@ using UsersControl;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using UsersControl.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,15 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddTransient<TokenService>();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IUserSession, UserSession>();
+
+builder.Services.AddSession(x =>
+{
+    x.Cookie.HttpOnly = true;
+    x.Cookie.IsEssential = true;
+});
+
 
 var app = builder.Build();
 Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
@@ -52,6 +62,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapRazorPages();
 
