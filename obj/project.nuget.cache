@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "GZ4Q2ayRgAbV8iX+lv93GtL2lJHKWGphZ6EfnIZGt2jfOW6+a+7SvLRQ69tDJKqeJ0ncimr8ABrbGIp2oWgsLg==",
+  "dgSpecHash": "CplTDSQHZFyOdpBEpE26hnLgjQKJU65LfitvGjM1AbLb2+nzL2U/iwIJ8r5WZahbEVD/vACZj03Qa+ecMUPkPA==",
   "success": true,
-  "projectFilePath": "/home/violaontheroad/ASPNet/UsersControl/UsersControl.csproj",
+  "projectFilePath": "/home/violaontheroad/Clone UsersControl/UsersControl/UsersControl.csproj",
   "expectedPackageFiles": [
     "/home/violaontheroad/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",
     "/home/violaontheroad/.nuget/packages/microsoft.aspnetcore.authentication/2.2.0/microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",

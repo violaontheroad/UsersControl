@@ -27,7 +27,7 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginModel loginModel,
+    public IActionResult Login(LoginModel loginModel,
     [FromServices]TokenService tokenService,
     [FromServices]DataContext context,
     [FromServices]IUserSession session)
@@ -56,10 +56,12 @@ public class LoginController : Controller
             return View("Index");
             
         }
-        catch (Exception error)
+        catch (Exception)
         {
             TempData["ErrorMessage"] = $"Login Error! Try again";
+            
             return RedirectToAction("Index");
         }
+        
     }
 }

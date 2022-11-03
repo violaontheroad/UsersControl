@@ -12,26 +12,21 @@ namespace Test.Controllers
 {
     public class UserController : Controller
     {
-        private readonly DataContext _db;
-
-        public UserController(DataContext db)
-        {
-            _db = db;
-        }
         //GET
-          public IActionResult Index()
-        {
-            try
+        public IActionResult Index(
+            [FromServices]DataContext db)
             {
-                IEnumerable<User> userList = _db.Users;
-                return View(userList);
+                try
+                {
+                    IEnumerable<User> userList = db.Users;
+                    return View(userList);
+                }
+                catch (System.Exception)
+                {
+                
+                throw new Exception("Error001");
+                }
             }
-            catch (DbUpdateException)
-            {
-                return StatusCode(400, ""); //coloca msg erro
-            }
-            
-        }
         
         public IActionResult Create()
         {
@@ -41,91 +36,129 @@ namespace Test.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User obj)
+        public IActionResult Create(User obj,
+        [FromServices]DataContext db)
         {
 
-           if(ModelState.IsValid)
+           try
            {
-                var HashPassword = PasswordHasher.Hash(obj.Password);
+                if(ModelState.IsValid)
+                {
+                    var HashPassword = PasswordHasher.Hash(obj.Password);
 
-                obj.Password = HashPassword;
-                await _db.Users.AddAsync(obj);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                    obj.Password = HashPassword;
+                    db.Users.Add(obj);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(obj);
+           
            }
-           return View(obj);
+           catch (System.Exception)
+           {
+            
+            throw new Exception("Error002");
+           }
+           
             
         }
 
         //EDIT => GET
-        public IActionResult Edit(long? id)
+        public IActionResult Edit(long? id,
+        [FromServices]DataContext db)
         {
-            if(id == null || id == 0)
-            {
-                return NotFound();
-            }
-            
-            var userFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
-            
-            if (userFromDb ==null)
-            {
-                return NotFound();
-            }
-            
-            userFromDb.Password = "";
+           try
+           {
+                if(id == null || id == 0)
+                    return NotFound();
+                
+                var userFromDb = db.Users.FirstOrDefault(x=>x.Id==id);
+                
+                if (userFromDb ==null)
+                    return NotFound();
+                
+                userFromDb.Password = "";
 
-            return View(userFromDb);
+                return View(userFromDb);
+           }
+           catch (System.Exception)
+           {
+            
+            throw new Exception("Error003");
+           }
         }
         
         //EDIT => POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(User obj)
+        public async Task<IActionResult> Edit(User obj,
+        [FromServices]DataContext db)
         {
-           if(ModelState.IsValid)
-           {    
-                var HashPassword = PasswordHasher.Hash(obj.Password);
+           try
+           {
+                if(ModelState.IsValid)
+                {    
+                    var HashPassword = PasswordHasher.Hash(obj.Password);
 
-                obj.Password = HashPassword;
-                _db.Users.Update(obj);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                    obj.Password = HashPassword;
+                    db.Users.Update(obj);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                return View(obj);
            }
-           return View(obj);
+           catch (System.Exception)
+           {
+            
+            throw new Exception("Error004");
+           }
             
         }
         //DELETE => GET
-        public IActionResult Delete(long? id)
+        public IActionResult Delete(long? id,
+        [FromServices]DataContext db)
         {
-            if(id == null || id == 0)
-            {
+           try
+           {
+             if(id == null || id == 0)
                 return NotFound();
-            }
-            var userFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
+            
+            var userFromDb = db.Users.FirstOrDefault(x => x.Id == id);
             
             if (userFromDb ==null)
-            {
                 return NotFound();
-            }
 
             return View(userFromDb);
+           }
+           catch (System.Exception)
+           {
+            
+            throw new Exception("Error005");
+           }
         }
         
         //DELETE => POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeletePOST(long? id)
+        public async Task<IActionResult> DeletePOST(long? id,
+        [FromServices]DataContext db)
         {
-            var objFromDb = _db.Users.FirstOrDefault(x=>x.Id==id);
-
-            if (objFromDb == null)
+            try
             {
-                return NotFound();
+                var objFromDb = db.Users.FirstOrDefault(x => x.Id == id);
+
+                if (objFromDb == null)
+                    return NotFound();
+            
+                db.Users.Remove(objFromDb);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");        
             }
-           
-                _db.Users.Remove(objFromDb);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index");            
+            catch (System.Exception)
+            {
+                
+                throw new Exception("Error006");
+            }    
         }
 
     }

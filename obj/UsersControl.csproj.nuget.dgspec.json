@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/violaontheroad/ASPNet/UsersControl/UsersControl.csproj": {}
+    "/home/violaontheroad/Clone UsersControl/UsersControl/UsersControl.csproj": {}
   },
   "projects": {
-    "/home/violaontheroad/ASPNet/UsersControl/UsersControl.csproj": {
+    "/home/violaontheroad/Clone UsersControl/UsersControl/UsersControl.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/violaontheroad/ASPNet/UsersControl/UsersControl.csproj",
+        "projectUniqueName": "/home/violaontheroad/Clone UsersControl/UsersControl/UsersControl.csproj",
         "projectName": "UsersControl",
-        "projectPath": "/home/violaontheroad/ASPNet/UsersControl/UsersControl.csproj",
+        "projectPath": "/home/violaontheroad/Clone UsersControl/UsersControl/UsersControl.csproj",
         "packagesPath": "/home/violaontheroad/.nuget/packages/",
-        "outputPath": "/home/violaontheroad/ASPNet/UsersControl/obj/",
+        "outputPath": "/home/violaontheroad/Clone UsersControl/UsersControl/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/violaontheroad/.nuget/NuGet/NuGet.Config"
