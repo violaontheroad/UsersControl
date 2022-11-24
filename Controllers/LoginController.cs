@@ -40,16 +40,16 @@ public class LoginController : Controller
                
                 if(user != null)
                 {
+                    
                     if(PasswordHasher.Verify(user.Password, loginModel.Password))
                     {
                         var token = tokenService.GenerateToken(user);
                         session.addUserSession(user);
                         return RedirectToAction("Index", "Home");
                     }
-                    TempData["ErrorMessage"] = $"Password Invalid. Try again!";
+                    TempData["ErrorMessage"] = $"Invalid Password. Try again!";
                 }
-                
-                TempData["ErrorMessage"] = $"Email/Password Invalid. Try again!";
+                TempData["ErrorMessage"] = $"Invalid Email/Password. Try again!";
                 
             }
             

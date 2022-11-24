@@ -1,6 +1,8 @@
 using Test.Models;
 using Microsoft.EntityFrameworkCore;
 using Blog.Data.Mappings;
+using Microsoft.AspNetCore.Identity;
+using SecureIdentity.Password;
 
 namespace Test.Data
 {
@@ -17,6 +19,25 @@ namespace Test.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMap());
+            this.SeedUser(modelBuilder);
+        }
+
+        private void SeedUser(ModelBuilder modelBuilder){
+
+            var password = "12345";
+            var passwordHasher = PasswordHasher.Hash(password);
+            User user = new User()
+            {
+                Id = 1,
+                Name = "Viola",
+                Email = "viola@gmail.com",
+                Cpf = "123.123.123-11",
+                Password = passwordHasher
+
+            };
+  
+            modelBuilder.Entity<User>().HasData(user);
+            
         }
     }
 }

@@ -11,17 +11,18 @@ using Test.Data;
 namespace UsersControl.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221024154026_CreateDataBase")]
-    partial class CreateDataBase
+    [Migration("20221124142013_InitialCreate")]
+    partial class InitialCreate
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("Test.Models.User", b =>
                 {
@@ -29,35 +30,45 @@ namespace UsersControl.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Cpf")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("VARCHAR(80)")
+                        .HasColumnType("VARCHAR")
                         .HasColumnName("Cpf");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("VARCHAR(80)")
+                        .HasColumnType("VARCHAR")
                         .HasColumnName("Email");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(80)
-                        .HasColumnType("NVARCHAR(80)")
+                        .HasColumnType("NVARCHAR")
                         .HasColumnName("Name");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(80)
-                        .HasColumnType("VARCHAR(80)")
+                        .HasMaxLength(1000)
+                        .HasColumnType("VARCHAR")
                         .HasColumnName("Password");
 
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Cpf = "123.123.123-11",
+                            Email = "viola@gmail.com",
+                            Name = "Viola",
+                            Password = "10000.VwgxMW/tpkhUXj9LWHacJg==.JBuvDY8Lm5bQT/nxd+IsSdrdx9Gk2GRvQ5XdtivMqXs="
+                        });
                 });
 #pragma warning restore 612, 618
         }

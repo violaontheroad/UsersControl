@@ -43,7 +43,7 @@ namespace Blog.Data.Mappings
                 .IsRequired()
                 .HasColumnName("Password")
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(80);
+                .HasMaxLength(1000);
         }
     }
 }
